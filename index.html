@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTML/CSS カンペ ── EST コード体験会</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F4EFE3;
+    --paper: #FBF7EC;
+    --ink: #1A1A1A;
+    --ink-soft: #4A453E;
+    --accent: #C2410C;
+    --accent-soft: #FED7AA;
+    --line: #2A2A2A;
+    --code-bg: #1A1A1A;
+    --code-text: #F4EFE3;
+    --hl: #FBBF24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 50px 40px 60px;
+    border-bottom: 6px double var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: "<HTML/>";
+    position: absolute;
+    top: -10px;
+    right: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 180px;
+    color: rgba(255,255,255,0.04);
+    font-weight: 700;
+    letter-spacing: -8px;
+  }
+  header h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  header h1 .highlight {
+    color: var(--hl);
+    font-style: italic;
+  }
+  header p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: rgba(244, 239, 227, 0.7);
+    letter-spacing: 0.05em;
+    position: relative;
+  }
+  header .meta {
+    margin-top: 24px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--hl);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    position: relative;
+  }
+  header .meta span::before {
+    content: "▸ ";
+    color: var(--accent-soft);
+  }
+
+  /* TOC */
+  nav.toc {
+    background: var(--paper);
+    border-bottom: 2px solid var(--ink);
+    padding: 24px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+  }
+  nav.toc h2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  nav.toc ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  nav.toc a {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1.5px solid var(--ink);
+    background: var(--cream);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  nav.toc a:hover {
+    background: var(--ink);
+    color: var(--cream);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--accent);
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  /* SECTION */
+  section {
+    margin-bottom: 72px;
+    scroll-margin-top: 80px;
+  }
+  section h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: var(--ink);
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  section h2 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  section .lead {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  /* RULE BOX (大きい説明用) */
+  .rule {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    border-radius: 0;
+    position: relative;
+  }
+  .rule::before {
+    content: "RULE";
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: var(--hl);
+    color: var(--ink);
+    padding: 2px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+  }
+  .rule .syntax {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-align: center;
+    padding: 20px 0;
+    color: var(--hl);
+  }
+  .rule .syntax .label {
+    color: var(--accent-soft);
+  }
+  .rule .desc {
+    font-size: 0.9rem;
+    color: rgba(244,239,227,0.85);
+    margin-top: 8px;
+  }
+
+  /* CARD GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, box-shadow 0.15s;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .card .label {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 10px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card .label .ja {
+    color: var(--hl);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+  }
+  .card .code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    padding: 14px 16px;
+    overflow-x: auto;
+    border-bottom: 2px solid var(--ink);
+    line-height: 1.6;
+  }
+  .card .code .panel {
+    color: var(--accent-soft);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .card .code .tag { color: #FFB088; }
+  .card .code .attr { color: #BAE6FD; }
+  .card .code .str { color: #FCD34D; }
+  .card .code .com { color: #6B7280; font-style: italic; }
+  .card .preview {
+    background: var(--paper);
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 60px;
+    color: var(--ink);
+  }
+  .card .preview-label {
+    background: var(--accent-soft);
+    color: var(--ink);
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    border-bottom: 1px dashed var(--ink);
+  }
+
+  /* COLOR SWATCH */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+  .sw {
+    border: 2px solid var(--ink);
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+  }
+  .sw .color {
+    height: 36px;
+  }
+  .sw .name {
+    background: var(--paper);
+    padding: 4px 8px;
+    text-align: center;
+    border-top: 2px solid var(--ink);
+  }
+
+  /* RECIPE */
+  .recipe {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .recipe h3 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+  }
+  .recipe .recipe-tag {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    margin-bottom: 14px;
+    letter-spacing: 0.1em;
+  }
+  .recipe .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .recipe .row > div {
+    border: 1px solid var(--ink);
+  }
+  .recipe .row .codeblock {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+  .recipe .row .codeblock .panel {
+    color: var(--accent-soft);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .recipe .row .codeblock .tag { color: #FFB088; }
+  .recipe .row .codeblock .attr { color: #BAE6FD; }
+  .recipe .row .codeblock .str { color: #FCD34D; }
+  .recipe .preview-area {
+    background: var(--paper);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+  }
+
+  /* TROUBLESHOOT */
+  .trouble {
+    background: var(--paper);
+    border: 2px solid var(--accent);
+    padding: 0;
+    overflow: hidden;
+  }
+  .trouble .head {
+    background: var(--accent);
+    color: var(--cream);
+    padding: 10px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .trouble table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .trouble th, .trouble td {
+    padding: 12px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--ink);
+    font-size: 0.9rem;
+  }
+  .trouble th {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .trouble code {
+    background: var(--code-bg);
+    color: var(--hl);
+    padding: 2px 6px;
+    font-size: 0.85em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+  footer .marquee-demo {
+    color: var(--hl);
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    main { padding: 40px 20px; }
+    header { padding: 40px 24px; }
+    nav.toc { padding: 20px; }
+    .recipe .row { grid-template-columns: 1fr; }
+  }
+
+  /* INLINE EXAMPLE STYLING */
+  .ex-h1-red { color: red; font-size: 1.6rem; font-weight: bold; margin: 0; }
+  .ex-bg-yellow { background: yellow; padding: 4px 8px; }
+  .ex-center { text-align: center; width: 100%; }
+  .ex-big { font-size: 2rem; font-weight: bold; }
+  .ex-cursive { font-family: cursive; font-size: 1.5rem; }
+  .ex-rounded { width: 60px; height: 60px; background: linear-gradient(135deg, #FBBF24, #C2410C); border-radius: 50%; }
+  .ex-padding { background: var(--accent-soft); padding: 16px; }
+  .ex-border { border: 3px solid var(--ink); padding: 8px 14px; }
+  .ex-link { color: #2563EB; text-decoration: underline; }
+  .ex-bold { font-weight: bold; }
+  .ex-italic { font-style: italic; }
+  .ex-strike { text-decoration: line-through; }
+  .ex-shadow { text-shadow: 3px 3px 0 var(--hl); font-size: 1.4rem; font-weight: bold; }
+  .ex-rotate { display: inline-block; transform: rotate(-8deg); background: var(--accent); color: var(--cream); padding: 6px 12px; font-weight: bold; }
+  .ex-opacity { background: var(--accent); color: var(--cream); padding: 4px 10px; opacity: 0.4; }
+  .ex-list { padding-left: 20px; }
+  .ex-list li { line-height: 1.4; }
+
+  .ex-class-red { color: red; font-weight: bold; }
+  .ex-class-blue { color: blue; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>HTML / CSS<br><span class="highlight">カンペ</span>。</h1>
+  <p>EST コード体験会・参加者用リファレンス</p>
+  <div class="meta">
+    <span>HTML = 構造</span>
+    <span>CSS = 装飾</span>
+    <span>困ったら聞く</span>
+    <span>コピペOK</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>目次</h2>
+  <ul>
+    <li><a href="#rule">CSSの基本ルール</a></li>
+    <li><a href="#tags">HTMLタグ集</a></li>
+    <li><a href="#selectors">セレクタ（誰に）</a></li>
+    <li><a href="#text">文字の装飾</a></li>
+    <li><a href="#box">背景・枠・余白</a></li>
+    <li><a href="#effects">エフェクト</a></li>
+    <li><a href="#colors">色の指定方法</a></li>
+    <li><a href="#class">classの使い方</a></li>
+    <li><a href="#recipes">レシピ集</a></li>
+    <li><a href="#trouble">困ったとき</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ─────────────── 0. ルール ─────────────── -->
+<section id="rule">
+  <h2><span class="num">00</span>CSSの基本ルール</h2>
+  <p class="lead">これさえ覚えれば全部応用できる。</p>
+
+  <div class="rule">
+    <div class="syntax"><span class="label">誰に</span> { <span class="label">何をする</span>; }</div>
+    <div class="desc">
+      左：HTMLのどの要素を狙うか（タグ名・class名・id名）<br>
+      右：見た目をどう変えるか（色・サイズ・余白など）<br>
+      <strong style="color: var(--hl)">行末のセミコロン <code style="background:#333;padding:2px 6px;">;</code> 忘れるとそこで死ぬ。</strong>
+    </div>
+  </div>
+
+  <div class="card" style="max-width: 500px;">
+    <div class="label"><span>EXAMPLE</span><span class="ja">基本形</span></div>
+    <div class="code">
+<span class="panel">— CSS パネル —</span>
+<span class="tag">h1</span> {
+  <span class="attr">color</span>: <span class="str">red</span>;
+  <span class="attr">font-size</span>: <span class="str">40px</span>;
+}
+    </div>
+    <div class="preview-label">PREVIEW ↓</div>
+    <div class="preview"><span style="color: red; font-size: 40px; font-weight: bold;">こんにちは</span></div>
+  </div>
+</section>
+
+<!-- ─────────────── 1. HTMLタグ ─────────────── -->
+<section id="tags">
+  <h2><span class="num">01</span>HTMLタグ集（構造）</h2>
+  <p class="lead">左のHTMLパネルに書く、ページの骨組み。</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label"><span>&lt;h1&gt; ~ &lt;h6&gt;</span><span class="ja">見出し</span></div>
+      <div class="code"><span class="tag">&lt;h1&gt;</span>大見出し<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span>中見出し<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span>小見出し<span class="tag">&lt;/h3&gt;</span></div>
+      <div class="preview" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+        <h1 style="font-size:1.6rem;margin:0;">大見出し</h1>
+        <h2 style="font-size:1.2rem;margin:0;">中見出し</h2>
+        <h3 style="font-size:1rem;margin:0;">小見出し</h3>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;p&gt;</span><span class="ja">段落（普通の文）</span></div>
+      <div class="code"><span class="tag">&lt;p&gt;</span>これは普通の文章です。<span class="tag">&lt;/p&gt;</span></div>
+      <div class="preview"><p>これは普通の文章です。</p></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;br&gt;</span><span class="ja">改行</span></div>
+      <div class="code"><span class="tag">&lt;p&gt;</span>1行目<span class="tag">&lt;br&gt;</span>2行目<span class="tag">&lt;/p&gt;</span></div>
+      <div class="preview"><p>1行目<br>2行目</p></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;b&gt; &lt;i&gt; &lt;s&gt;</span><span class="ja">太字・斜体・打消</span></div>
+      <div class="code"><span class="tag">&lt;b&gt;</span>太字<span class="tag">&lt;/b&gt;</span>
+<span class="tag">&lt;i&gt;</span>斜体<span class="tag">&lt;/i&gt;</span>
+<span class="tag">&lt;s&gt;</span>取消線<span class="tag">&lt;/s&gt;</span></div>
+      <div class="preview" style="flex-direction:column;align-items:flex-start;gap:4px;">
+        <span class="ex-bold">太字</span>
+        <span class="ex-italic">斜体</span>
+        <span class="ex-strike">取消線</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;img&gt;</span><span class="ja">画像</span></div>
+      <div class="code"><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"https://picsum.photos/100"</span><span class="tag">&gt;</span></div>
+      <div class="preview"><img src="https://picsum.photos/100" alt="" style="display:block;"></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;a&gt;</span><span class="ja">リンク</span></div>
+      <div class="code"><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"https://aiesec.jp"</span><span class="tag">&gt;</span>AIESEC<span class="tag">&lt;/a&gt;</span></div>
+      <div class="preview"><a href="#" class="ex-link">AIESEC</a></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;ul&gt; &lt;li&gt;</span><span class="ja">箇条書きリスト</span></div>
+      <div class="code"><span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>りんご<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>みかん<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></div>
+      <div class="preview"><ul class="ex-list"><li>りんご</li><li>みかん</li></ul></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;hr&gt;</span><span class="ja">区切り線</span></div>
+      <div class="code">上の文章
+<span class="tag">&lt;hr&gt;</span>
+下の文章</div>
+      <div class="preview" style="flex-direction:column;align-items:stretch;gap:4px;">
+        <span>上の文章</span>
+        <hr>
+        <span>下の文章</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;div&gt;</span><span class="ja">グループ化（箱）</span></div>
+      <div class="code"><span class="tag">&lt;div&gt;</span>
+  まとめたい
+  中身を入れる
+<span class="tag">&lt;/div&gt;</span></div>
+      <div class="preview" style="flex-direction:column;align-items:flex-start;">
+        <div style="border:1px dashed #999;padding:6px;">
+          まとめたい<br>中身を入れる
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>&lt;marquee&gt;</span><span class="ja">動く文字 🎉</span></div>
+      <div class="code"><span class="tag">&lt;marquee&gt;</span>流れる文字<span class="tag">&lt;/marquee&gt;</span></div>
+      <div class="preview"><marquee>流れる文字！！！</marquee></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────── 2. CSSセレクタ ─────────────── -->
+<section id="selectors">
+  <h2><span class="num">02</span>セレクタ（誰に）</h2>
+  <p class="lead">CSSの「誰に」の部分。3パターン覚えれば足りる。</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label"><span>タグ名</span><span class="ja">そのタグ全部</span></div>
+      <div class="code"><span class="panel">— CSS —</span>
+<span class="tag">h1</span> {
+  <span class="attr">color</span>: <span class="str">red</span>;
+}</div>
+      <div class="preview-label">↓ HTMLの &lt;h1&gt; 全部に効く</div>
+      <div class="preview"><span class="ex-h1-red">見出しが全部赤</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>.クラス名</span><span class="ja">指定したやつだけ</span></div>
+      <div class="code"><span class="panel">— HTML —</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"ピンク"</span><span class="tag">&gt;</span>これ<span class="tag">&lt;/p&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">.ピンク</span> {
+  <span class="attr">color</span>: <span class="str">deeppink</span>;
+}</div>
+      <div class="preview-label">↓ .（ドット）忘れずに</div>
+      <div class="preview"><span style="color:deeppink;font-weight:bold;">これだけピンク</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>#ID名</span><span class="ja">1個だけ特別</span></div>
+      <div class="code"><span class="panel">— HTML —</span>
+<span class="tag">&lt;p</span> <span class="attr">id</span>=<span class="str">"主役"</span><span class="tag">&gt;</span>俺<span class="tag">&lt;/p&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">#主役</span> {
+  <span class="attr">color</span>: <span class="str">gold</span>;
+}</div>
+      <div class="preview-label">↓ #（シャープ）使う</div>
+      <div class="preview"><span style="color:gold;font-weight:bold;background:#222;padding:4px 10px;">俺だけ金</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────── 3. 文字 ─────────────── -->
+<section id="text">
+  <h2><span class="num">03</span>文字の装飾</h2>
+  <p class="lead">CSSパネルに書く。</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label"><span>color</span><span class="ja">文字色</span></div>
+      <div class="code"><span class="attr">color</span>: <span class="str">red</span>;</div>
+      <div class="preview"><span style="color:red;font-weight:bold;font-size:1.3rem;">文字色</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>font-size</span><span class="ja">文字の大きさ</span></div>
+      <div class="code"><span class="attr">font-size</span>: <span class="str">40px</span>;</div>
+      <div class="preview"><span class="ex-big">大きい！</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>font-family</span><span class="ja">フォント変更</span></div>
+      <div class="code"><span class="attr">font-family</span>: <span class="str">cursive</span>;</div>
+      <div class="preview"><span class="ex-cursive">手書き風</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>font-weight</span><span class="ja">太さ</span></div>
+      <div class="code"><span class="attr">font-weight</span>: <span class="str">bold</span>;</div>
+      <div class="preview"><span style="font-weight:bold;font-size:1.3rem;">太字にする</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>text-align</span><span class="ja">寄せる</span></div>
+      <div class="code"><span class="attr">text-align</span>: <span class="str">center</span>;</div>
+      <div class="preview" style="display:block;"><div class="ex-center" style="background:var(--accent-soft);padding:8px;">真ん中</div></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>text-decoration</span><span class="ja">下線・取消</span></div>
+      <div class="code"><span class="attr">text-decoration</span>: <span class="str">underline</span>;</div>
+      <div class="preview"><span style="text-decoration:underline;">下線をひく</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────── 4. 箱 ─────────────── -->
+<section id="box">
+  <h2><span class="num">04</span>背景・枠・余白</h2>
+  <p class="lead">要素の「箱」を整える系。</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label"><span>background</span><span class="ja">背景色</span></div>
+      <div class="code"><span class="attr">background</span>: <span class="str">yellow</span>;</div>
+      <div class="preview"><span class="ex-bg-yellow">背景に色</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>padding</span><span class="ja">内側の余白</span></div>
+      <div class="code"><span class="attr">padding</span>: <span class="str">20px</span>;</div>
+      <div class="preview"><span class="ex-padding">余白広め</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>border</span><span class="ja">枠線</span></div>
+      <div class="code"><span class="attr">border</span>: <span class="str">3px solid black</span>;</div>
+      <div class="preview"><span class="ex-border">囲む</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>border-radius</span><span class="ja">角を丸く</span></div>
+      <div class="code"><span class="attr">border-radius</span>: <span class="str">50%</span>;</div>
+      <div class="preview"><div class="ex-rounded"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>width / height</span><span class="ja">大きさ</span></div>
+      <div class="code"><span class="attr">width</span>: <span class="str">200px</span>;
+<span class="attr">height</span>: <span class="str">100px</span>;</div>
+      <div class="preview"><div style="width:200px;height:50px;background:var(--accent);"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>margin</span><span class="ja">外側の余白</span></div>
+      <div class="code"><span class="attr">margin</span>: <span class="str">20px</span>;
+<span class="com">/* 周りに隙間ができる */</span></div>
+      <div class="preview" style="background:#ddd;display:block;padding:0;">
+        <div style="margin:10px;background:var(--paper);padding:8px;text-align:center;">外に余白</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────── 5. エフェクト ─────────────── -->
+<section id="effects">
+  <h2><span class="num">05</span>エフェクト</h2>
+  <p class="lead">ちょっと派手にしたいとき。</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="label"><span>text-shadow</span><span class="ja">文字に影</span></div>
+      <div class="code"><span class="attr">text-shadow</span>: <span class="str">3px 3px 0 yellow</span>;</div>
+      <div class="preview"><span class="ex-shadow">影つき</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>box-shadow</span><span class="ja">箱に影</span></div>
+      <div class="code"><span class="attr">box-shadow</span>: <span class="str">5px 5px 0 black</span>;</div>
+      <div class="preview"><div style="background:var(--hl);padding:10px 16px;box-shadow:5px 5px 0 black;">影あり</div></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>transform</span><span class="ja">回転・拡大</span></div>
+      <div class="code"><span class="attr">transform</span>: <span class="str">rotate(-8deg)</span>;</div>
+      <div class="preview"><span class="ex-rotate">傾く</span></div>
+    </div>
+
+    <div class="card">
+      <div class="label"><span>opacity</span><span class="ja">透明度</span></div>
+      <div class="code"><span class="attr">opacity</span>: <span class="str">0.4</span>;</div>
+      <div class="preview"><span class="ex-opacity">うっすら</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─────────────── 6. 色 ─────────────── -->
+<section id="colors">
+  <h2><span class="num">06</span>色の指定方法</h2>
+  <p class="lead">名前で指定するのが一番簡単。</p>
+
+  <h3 style="font-family:'Shippori Mincho',serif;font-size:1.2rem;margin-bottom:14px;">色名でOK（覚えなくていい、見ながら使う）</h3>
+  <div class="swatches" style="margin-bottom:32px;">
+    <div class="sw"><div class="color" style="background:red"></div><div class="name">red</div></div>
+    <div class="sw"><div class="color" style="background:blue"></div><div class="name">blue</div></div>
+    <div class="sw"><div class="color" style="background:green"></div><div class="name">green</div></div>
+    <div class="sw"><div class="color" style="background:yellow"></div><div class="name">yellow</div></div>
+    <div class="sw"><div class="color" style="background:pink"></div><div class="name">pink</div></div>
+    <div class="sw"><div class="color" style="background:orange"></div><div class="name">orange</div></div>
+    <div class="sw"><div class="color" style="background:purple"></div><div class="name">purple</div></div>
+    <div class="sw"><div class="color" style="background:gold"></div><div class="name">gold</div></div>
+    <div class="sw"><div class="color" style="background:crimson"></div><div class="name">crimson</div></div>
+    <div class="sw"><div class="color" style="background:navy"></div><div class="name" style="color:white;background:navy">navy</div></div>
+    <div class="sw"><div class="color" style="background:lightblue"></div><div class="name">lightblue</div></div>
+    <div class="sw"><div class="color" style="background:lightpink"></div><div class="name">lightpink</div></div>
+    <div class="sw"><div class="color" style="background:tomato"></div><div class="name">tomato</div></div>
+    <div class="sw"><div class="color" style="background:coral"></div><div class="name">coral</div></div>
+    <div class="sw"><div class="color" style="background:violet"></div><div class="name">violet</div></div>
+    <div class="sw"><div class="color" style="background:black"></div><div class="name" style="color:white;background:black">black</div></div>
+  </div>
+
+  <h3 style="font-family:'Shippori Mincho',serif;font-size:1.2rem;margin-bottom:14px;">細かく指定したい人向け</h3>
+  <div class="grid">
+    <div class="card">
+      <div class="label"><span>カラーコード</span><span class="ja">#で始まる6桁</span></div>
+      <div class="code"><span class="attr">color</span>: <span class="str">#ff6b35</span>;</div>
+      <div class="preview"><span style="color:#ff6b35;font-weight:bold;">#ff6b35</span></div>
+    </div>
+    <div class="card">
+      <div class="label"><span>rgb</span><span class="ja">数字で指定</span></div>
+      <div class="code"><span class="attr">color</span>: <span class="str">rgb(255, 100, 50)</span>;</div>
+      <div class="preview"><span style="color:rgb(255,100,50);font-weight:bold;">rgb指定</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── 7. class ─────────────── -->
+<section id="class">
+  <h2><span class="num">07</span>classの使い方</h2>
+  <p class="lead">「特定の1個だけ」装飾したいときの切り札。</p>
+
+  <div class="rule">
+    <div class="syntax"><span class="label">HTML側</span> <code style="color:var(--hl)">class="名前"</code> &nbsp;＋&nbsp; <span class="label">CSS側</span> <code style="color:var(--hl)">.名前 { }</code></div>
+    <div class="desc">
+      ポイント：<strong style="color:var(--hl)">CSS側にはドット <code style="background:#333;padding:2px 6px;">.</code> をつける</strong>。これがないと「そんなタグ無いよ」って無視される。
+    </div>
+  </div>
+
+  <div class="recipe">
+    <h3>例：3つの段落のうち1つだけ青くする</h3>
+    <span class="recipe-tag">CLASS で狙い撃ち</span>
+    <div class="row">
+      <div class="codeblock">
+<span class="panel">— HTML —</span>
+<span class="tag">&lt;p&gt;</span>普通の文1<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"特別"</span><span class="tag">&gt;</span>俺だけ青<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span>普通の文2<span class="tag">&lt;/p&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">.特別</span> {
+  <span class="attr">color</span>: <span class="str">blue</span>;
+  <span class="attr">font-weight</span>: <span class="str">bold</span>;
+}
+      </div>
+      <div class="preview-area">
+        <div>
+          <p style="margin:0;">普通の文1</p>
+          <p style="margin:0;color:blue;font-weight:bold;">俺だけ青</p>
+          <p style="margin:0;">普通の文2</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe">
+    <h3>例：同じclassを複数につけて、まとめて装飾</h3>
+    <span class="recipe-tag">CLASS は使い回せる</span>
+    <div class="row">
+      <div class="codeblock">
+<span class="panel">— HTML —</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"推し"</span><span class="tag">&gt;</span>春日<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span>誰か<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"推し"</span><span class="tag">&gt;</span>若林<span class="tag">&lt;/p&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">.推し</span> {
+  <span class="attr">color</span>: <span class="str">deeppink</span>;
+  <span class="attr">font-size</span>: <span class="str">24px</span>;
+}
+      </div>
+      <div class="preview-area">
+        <div>
+          <p style="margin:0;color:deeppink;font-size:1.4rem;">春日</p>
+          <p style="margin:0;">誰か</p>
+          <p style="margin:0;color:deeppink;font-size:1.4rem;">若林</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── 8. レシピ集 ─────────────── -->
+<section id="recipes">
+  <h2><span class="num">08</span>レシピ集</h2>
+  <p class="lead">組み合わせるとそれっぽくなるやつ。</p>
+
+  <div class="recipe">
+    <h3>派手な見出し</h3>
+    <span class="recipe-tag">＃ヘッダー映え</span>
+    <div class="row">
+      <div class="codeblock">
+<span class="panel">— CSS —</span>
+<span class="tag">h1</span> {
+  <span class="attr">color</span>: <span class="str">white</span>;
+  <span class="attr">background</span>: <span class="str">crimson</span>;
+  <span class="attr">padding</span>: <span class="str">20px</span>;
+  <span class="attr">text-align</span>: <span class="str">center</span>;
+  <span class="attr">font-size</span>: <span class="str">48px</span>;
+  <span class="attr">letter-spacing</span>: <span class="str">0.1em</span>;
+}
+      </div>
+      <div class="preview-area" style="display:block;padding:0;">
+        <div style="color:white;background:crimson;padding:20px;text-align:center;font-size:2rem;letter-spacing:0.1em;font-weight:bold;">
+          目立つ見出し
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe">
+    <h3>丸いアイコン風画像</h3>
+    <span class="recipe-tag">＃プロフィール</span>
+    <div class="row">
+      <div class="codeblock">
+<span class="panel">— HTML —</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"https://picsum.photos/200"</span><span class="tag">&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">img</span> {
+  <span class="attr">width</span>: <span class="str">120px</span>;
+  <span class="attr">height</span>: <span class="str">120px</span>;
+  <span class="attr">border-radius</span>: <span class="str">50%</span>;
+  <span class="attr">border</span>: <span class="str">4px solid black</span>;
+}
+      </div>
+      <div class="preview-area">
+        <img src="https://picsum.photos/200" style="width:100px;height:100px;border-radius:50%;border:3px solid black;display:block;">
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe">
+    <h3>付箋っぽいカード</h3>
+    <span class="recipe-tag">＃メモ</span>
+    <div class="row">
+      <div class="codeblock">
+<span class="panel">— HTML —</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"付箋"</span><span class="tag">&gt;</span>大事なこと<span class="tag">&lt;/div&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">.付箋</span> {
+  <span class="attr">background</span>: <span class="str">#fef08a</span>;
+  <span class="attr">padding</span>: <span class="str">20px</span>;
+  <span class="attr">box-shadow</span>: <span class="str">5px 5px 0 #555</span>;
+  <span class="attr">transform</span>: <span class="str">rotate(-3deg)</span>;
+  <span class="attr">font-weight</span>: <span class="str">bold</span>;
+}
+      </div>
+      <div class="preview-area">
+        <div style="background:#fef08a;padding:16px;box-shadow:5px 5px 0 #555;transform:rotate(-3deg);font-weight:bold;display:inline-block;">
+          大事なこと
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe">
+    <h3>うざいページ（marquee × 派手色）</h3>
+    <span class="recipe-tag">＃2000年代スタイル</span>
+    <div class="row">
+      <div class="codeblock">
+<span class="panel">— HTML —</span>
+<span class="tag">&lt;marquee&gt;</span>★ようこそ★<span class="tag">&lt;/marquee&gt;</span>
+<span class="tag">&lt;h1&gt;</span>HARUNOSUKE<span class="tag">&lt;/h1&gt;</span>
+
+<span class="panel">— CSS —</span>
+<span class="tag">body</span> {
+  <span class="attr">background</span>: <span class="str">deeppink</span>;
+}
+<span class="tag">h1</span> {
+  <span class="attr">color</span>: <span class="str">yellow</span>;
+  <span class="attr">text-shadow</span>: <span class="str">3px 3px 0 black</span>;
+  <span class="attr">text-align</span>: <span class="str">center</span>;
+}
+<span class="tag">marquee</span> {
+  <span class="attr">color</span>: <span class="str">white</span>;
+  <span class="attr">font-size</span>: <span class="str">24px</span>;
+}
+      </div>
+      <div class="preview-area" style="background:deeppink;display:block;padding:0;">
+        <marquee style="color:white;font-size:1.2rem;padding-top:8px;">★ようこそ★</marquee>
+        <h1 style="color:yellow;text-shadow:3px 3px 0 black;text-align:center;font-size:1.8rem;margin:8px 0;">HARUNOSUKE</h1>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ─────────────── 9. 困ったら ─────────────── -->
+<section id="trouble">
+  <h2><span class="num">09</span>困ったとき</h2>
+  <p class="lead">「動かない」のだいたいの原因。</p>
+
+  <div class="trouble">
+    <div class="head">▶ TROUBLESHOOTING</div>
+    <table>
+      <thead>
+        <tr><th style="width:35%;">症状</th><th>たぶん原因</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>そもそも何も出ない</td><td><code>&lt;</code> <code>&gt;</code> が全角になってる → 半角に直す</td></tr>
+        <tr><td>タグが効かない</td><td><code>&lt;/h1&gt;</code> の <code>/</code> 抜け / 閉じタグ忘れ</td></tr>
+        <tr><td>CSSが効かない①</td><td>HTMLパネルにCSS書いてないか確認、真ん中のパネルへ</td></tr>
+        <tr><td>CSSが効かない②</td><td>各行末の <code>;</code> 忘れ</td></tr>
+        <tr><td>CSSが効かない③</td><td><code>{ }</code> の閉じ忘れ</td></tr>
+        <tr><td>classが効かない</td><td>CSS側で <code>.</code> が抜けてる、 <code>.名前 {}</code> って書く</td></tr>
+        <tr><td>idが効かない</td><td>CSS側で <code>#</code> が抜けてる、 <code>#名前 {}</code> って書く</td></tr>
+        <tr><td>画像が出ない</td><td>URLが画像本体じゃなくページのURLになってる</td></tr>
+        <tr><td>プレビュー真っ白</td><td>タグの構造崩壊、<code>Cmd+Z</code> / <code>Ctrl+Z</code> で戻る</td></tr>
+        <tr><td>解決しない</td><td>春之介・サポーターに声かけ ⟂ Claude/ChatGPTに丸投げ</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>EST CODE EXPERIENCE / HARUNOSUKE KURONUMA</div>
+  <div class="marquee-demo"><marquee>Welcome to EST!! まずは触って楽しんでください ✦✦✦</marquee></div>
+</footer>
+
+</body>
+</html>
